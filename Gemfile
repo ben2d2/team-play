@@ -47,9 +47,7 @@ gem 'mini_racer'
 gem 'aws-sdk-s3', require: false
 gem "image_processing", ">= 1.2"
 
-gem 'active_admin_flat_skin', '~> 0.1.2'
-
-gem 'font-awesome-rails'
+gem 'active_skin'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

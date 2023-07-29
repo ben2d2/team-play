@@ -6,23 +6,18 @@
 //
 // For example, to change the sidebar width:
 // $sidebar-width: 242px;$panelBorder: #babdc5;
-$skinActiveColor: #3c75e7;
-$bodyColor: rgba(236, 240, 241, 0.48);
-$skinBlack: rgb(55, 71, 79);
-$panelHeaderBck: $skinBlack;
-$skinBlackLight: rgb(69, 90, 100);
-$textGray: rgb(174, 179, 181);
-$skinTextColor: #1e2a33;
-$skinTextActiveColor: white;
-$skinTextTable: #7f8c8d;
-$skinHeaderBck: #1e2a33;
 
+$skinLogo: url("team-play-logo.png") no-repeat 0 0;
+$skinActiveColor: #42688e;
+$skinHeaderBck: #38383a;
+$panelHeaderBck: #38383a;
 
 // Active Admin's got SASS!
 @import "active_admin/mixins";
 @import "active_admin/base";
-@import "active_admin_flat_skin";
-@import "font-awesome";
+@import "active_skin";
+
+//https://team-play-images.s3.us-east-2.amazonaws.com/team-play-logo.png
 
 // Overriding any non-variable Sass must be done after the fact.
 // For example, to change the default status-tag color:
