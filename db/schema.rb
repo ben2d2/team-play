@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_07_29_165418) do
+ActiveRecord::Schema.define(version: 2023_07_31_050152) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -47,6 +47,7 @@ ActiveRecord::Schema.define(version: 2023_07_29_165418) do
     t.integer "points"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "event_round_id"
   end
 
   create_table "contest_groups", force: :cascade do |t|
@@ -55,6 +56,7 @@ ActiveRecord::Schema.define(version: 2023_07_29_165418) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "event_round_id"
   end
 
   create_table "contest_rules", force: :cascade do |t|
@@ -71,6 +73,10 @@ ActiveRecord::Schema.define(version: 2023_07_29_165418) do
     t.string "location"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "no_of_practice_attempts"
+    t.integer "no_of_contest_attempts"
+    t.integer "max_points_per_attempt"
+    t.integer "organization_id"
   end
 
   create_table "event_round_contests", force: :cascade do |t|
@@ -82,7 +88,7 @@ ActiveRecord::Schema.define(version: 2023_07_29_165418) do
 
   create_table "event_rounds", force: :cascade do |t|
     t.string "event_id"
-    t.string "type"
+    t.string "round_type"
     t.integer "order"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -96,6 +102,8 @@ ActiveRecord::Schema.define(version: 2023_07_29_165418) do
     t.datetime "end_time"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "organization_id"
+    t.boolean "schedule_complete"
   end
 
   create_table "organization_events", force: :cascade do |t|

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>TeamPlay</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+  <body>
+    <div>
+      <div class="header">
+        <div>
+          <%= image_tag "team-play-logo.png" %>
+        </div>
+        <div class="header-nav-button">
+          <i id="nav-toggle" class="fa fa-bars"></i>
+        </div>
+      </div>
+      <div id="nav-links-container">
+        <div class="nav-links">
+          <a class="nav-link" href="#"><i class="fa fa-star"></i> Scorecard</a>
+          <a class="nav-link" href="#"><i class="fa fa-trophy"></i> Leaderboard</a>
+          <a class="nav-link" href="#"><i class="fa fa-info-circle"></i> Event Details</a>
+          <hr style="margin: 0">
+          <a class="nav-link" href="#"><i class="fa fa-user"></i> Profile</a>
+          <a class="nav-link" href="#"><i class="fa fa-calendar"></i> Events</a>
+          <!--if current_user.is_organization_admin-->
+          <a class="nav-link" href="#"><i class="fa fa-sitemap"></i> Organizations</a>
+        </div>
+      </div>
+      <div class="event-header">
+        IPD 2023 Summer Games
+      </div>
+      <% flash.each do |key, value| %>
+        <div class="<%= flash_class(key) %>">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <%= value %>
+        </div>
+      <% end %>
+      <%= yield %>
+    </div>
+  </body>
+</html>

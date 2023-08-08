@@ -3,4 +3,12 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
-  end
+
+  attribute :name, :string
+  attribute :phone, :string
+  attribute :email, :string
+  attribute :team_id, :integer
+  
+  has_many :user_teams
+  has_and_belongs_to_many :teams, class_name: 'Team', join_table: 'user_teams'
+end

@@ -4,4 +4,8 @@ class Event < ApplicationRecord
 	attribute :start_time, :datetime
 	attribute :end_time, :datetime
 	attribute :location, :string
+	attribute :organization_id, :integer
+
+	has_one :organization
+	has_many :event_rounds
 end

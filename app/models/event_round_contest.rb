@@ -1,4 +1,4 @@
-class OrganizationEvent < ApplicationRecord
+class EventRoundContest < ApplicationRecord
 	belongs_to :event_round
 	belongs_to :contest
 

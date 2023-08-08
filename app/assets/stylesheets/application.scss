@@ -1,0 +1,245 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, or any plugin's
+ * vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
+ * files in this directory. Styles in this file should be added after the last require_* statement.
+ * It is generally better to create a new file per style scope.
+ *
+ *= require_tree .
+ *= require_self
+ */
+ @import "font-awesome";
+ @import 'bootstrap';
+
+ $primary: #2d8fff;
+ $secondary: #dcebfc;
+ $orange-cream: #dc804b;
+ $dark: #292929;
+ $limegreen: #14eb14;
+
+ body {
+  background-color: $dark;
+  height: 100%;
+ }
+
+  a:link {
+    color: $secondary;
+  }
+  a:visited {
+    color: $secondary;
+  }
+  a:hover {
+    color: $primary;
+  }
+
+ .header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 4px 8px;
+  background-color: #f8f8f8;
+ }
+
+ .event-header {
+  padding: 12px;
+  background-color: $dark;
+  color: white;
+  font-size: 16px;
+  font-weight: 500;
+  text-align: center;
+  text-transform: uppercase;
+ }
+
+ .header-nav-button {
+  justify-content: right;
+  font-size: 24px;
+  margin-right: 12px
+ }
+
+ #nav-links-container {
+  display: none;
+ }
+
+ .nav-links {
+  display: flex;
+  flex-direction: column;
+  background-color: #f8f8f8;
+  border-bottom: 2px solid #ccc;
+ }
+
+ .nav-link:link {
+  height: 36px;
+  vertical-align: middle;
+  padding: 4px;
+  font-size: 16px;
+  text-decoration: none;
+  color: $dark;
+ }
+ 
+ .nav-link:visited {
+  text-decoration: none;
+  color: $dark;
+ }
+
+ .nav-link:hover {
+  background-color: $secondary;
+  border-bottom: none;
+  color: $primary;
+ }
+
+ .scorecard {
+  .scorecard-header {
+    display: flex;
+    flex-direction: row;
+    background-color: $orange-cream;
+    border-bottom: 1px solid #ccc;
+    padding: 8px;    
+    line-height: 1;
+    align-items: center;
+    margin: 12px;
+    border-radius: 8px;
+    .team-logo {
+      display: flex;
+      img {
+        height: 60px;
+        width: 60px;
+      }
+    }
+    .team-name {
+      display: flex;
+      flex-direction: column;
+      flex-grow: 4;
+      padding: 4px;
+      justify-content: center;
+      height: 65px;
+      .name-primary {
+        font-weight: 500;
+        font-size: 20px;
+        margin-bottom: 4px;
+      }
+      .name-secondary {
+        font-size: 90%;
+      }
+    }
+    .team-score {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0 4px;
+      .total-score {
+        display: flex;
+        font-weight: 500;
+        color: white;
+        border-radius: 3px;
+        background-color: #539b53;
+        justify-content: center;
+        padding: 4px 8px;
+        margin-bottom: 4px;
+      }
+    }
+  }
+ }
+
+ .contest {
+  display: flex;
+  flex-direction: column;
+  margin: 8px;
+  color: white;
+  .contest-header {
+    display: flex;
+    flex-direction: column;
+    padding: 4px 8px;    
+    line-height: 1;
+    .contest-details {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      padding: 4px;
+      .contest-pic-name {
+        padding: 4px;
+        display: flex;
+        align-items: center;
+        font-size: 18px;
+        img {
+          height: 40px;
+          width: 40px;
+          margin-right: 8px;
+        }
+      }
+      .contest-round {
+        padding: 4px;
+      }
+    }
+  }
+  .contest-team-score {
+    display: flex;
+    flex-direction: column;
+    padding: 4px 8px;
+    margin-top: 12px;
+    p {
+      padding: 0 8px;
+    }
+    .score-form {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      padding: 4px 8px;
+      input {
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        width: 50%;
+      }
+      button {
+        font-weight: 500;
+        background-color: $primary;
+        background-image: none;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        text-shadow: none;
+        width: 50%;
+      }
+    }
+  }
+  .contest-competition {
+    display: flex;
+    flex-direction: column;
+    padding: 4px 8px;
+    margin-top: 16px;
+    p {
+      padding: 8px;
+    }
+    .competition-table {
+      padding: 8px;
+      table {
+        
+        thead th {
+          background: none;
+          font-weight: 500;
+          border-bottom: 1px solid #ccc;
+        }
+      }
+    }
+  }
+ }
+
+ .medium {
+  margin: 0;
+  font-weight: normal;
+ }
+
+ .small {
+  margin: 0;
+  font-weight: normal;
+ }
+
+ .avatar {
+  border-radius: 50%;
+  border: 2px solid $limegreen;
+  background-color: white;
+ }

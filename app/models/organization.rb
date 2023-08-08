@@ -7,4 +7,6 @@ class Organization < ApplicationRecord
 	attribute :state, :string
 	attribute :zip_code, :string
 	attribute :image_url, :string
+
+	has_many :events
 end

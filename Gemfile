@@ -40,7 +40,6 @@ gem 'devise'
 
 gem 'activeadmin'
 
-gem 'bootstrap'
 gem 'jquery-rails'
 gem 'mini_racer'
 
@@ -48,6 +47,10 @@ gem 'aws-sdk-s3', require: false
 gem "image_processing", ">= 1.2"
 
 gem 'active_skin'
+
+gem 'bootstrap', '~> 5.2', '>= 5.2.3'
+
+gem "font-awesome-sass", "~> 6.4.2"
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
