@@ -1,7 +1,7 @@
 <div class="page-header">ROUNDS/CONTESTS</div>
 <%= render partial: '/components/scorecard' %>
 
-<div style="display: flex; justify-content: center; align-items: center; flex-direction: column; padding: 0px 24px 24px 24px; color: white; background-color: #292929">
+<div class="rounds-contests-container">
     <% @rounds.each do |round| %>
         <%= render partial: "/components/avatar_name_details_row", locals: round %>
     <% end %>

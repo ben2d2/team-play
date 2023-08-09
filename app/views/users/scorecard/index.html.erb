@@ -8,9 +8,9 @@
       <input type="number" placeholder="Max 40pts."/><button>Next Round</button>
     </div>
   </div>
-  <div class="contest-competition">
+  <div class="contest-competition-container">
     <p class="medium">Your competition for this round?</p>
-    <div class="competition-table">
+    <div class="contest-competition">
       <% @competition.each do |c| %>
         <%= render partial: '/components/avatar_name_details_row', locals: { name: c[:name],  place: c[:place], details: c[:details], avatar: c[:avatar], size: 50} %>
       <% end %>
