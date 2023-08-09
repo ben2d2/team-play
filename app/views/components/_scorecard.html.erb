@@ -1,11 +1,5 @@
 <div class="scorecard">
-    <div style="display: flex; justify-content: center; align-items: center; flex-direction: column; padding: 8px; color: white; background-color: #323232; background-image: linear-gradient(#292929, #454545, #292929);">
-    <div style="position: relative; ">
-        <i class="fa fa-crown" style="position: absolute; top:0; right:0; color: #ffa90b; font-size: 24px"></i>    
-        <img class="avatar" height="100" width="100" src="https://media.istockphoto.com/id/944272094/photo/close-up-of-lion-panthera-leo-8-years-old-in-front-of-white-background.jpg?s=612x612&w=0&k=20&c=wXU4T0sAn27IHJlDAB4VwHXBf_yGJ8SQ5hlCLw4yqrg="/>
+    <div class="scorecard-container">
+        <%= render partial: "/components/leaderboard_leader", locals: @scorecard %>
     </div>
-    <div style="margin-top: 8px; font-size: 18px;">Lions</div>
-    <div style="font-size: 80%">Bridges/Gonzalez</div>
-    <div style="color: #14eb14; font-size: 20px; margin-top: 8px;">180 pts</div>
-    <div>1st place</div>
 </div>

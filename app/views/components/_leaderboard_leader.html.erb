@@ -1,0 +1,12 @@
+<div class="leaderboard-leader">
+    <div class="leader-place"><%= place %></div>
+    <div class="leader-avatar-container">
+        <% if place == "1st" %>
+            <i class="fa fa-crown first-place-icon"></i>
+        <% end %>
+        <img class="avatar" height="<%= avatar_size %>" width="<%= avatar_size %>" src="<%= avatar %>"/>
+    </div>
+    <div class="leader-title"><%= title %></div>
+    <div class="leader-subtitle"><%= subtitle %></div>
+    <div class="leader-points"><%= points %> pts</div>
+</div>

@@ -1,12 +1,16 @@
-<div style="display: flex; flex-direction: row; width: 100%;  align-items: center; margin-bottom: 20px;">
+<div class="avatar-name-details-container">
     <% if !place.nil? %>
-        <div style="margin-right: 8px; color: #14eb14"><%= place %></div>
+        <div class="pre-row"><%= place %></div>
     <% end %>
-    <div style="display: flex; flex-direction: row; justify-content: space-between; align-items: center; width: 100%; height: <%= size %>px; border-radius: <%= radius %>px; border: 1px solid #666;">
-        <div style="display: flex; flex-direction: row; align-items: center; ">
+    <% if size.nil? %>
+        <div class="avatar-name-details-row">
+    <% else %>
+        <div class="avatar-name-details-row" style="height: <%= size %>px; border-radius: <%= size/2 %>px;">
+    <% end %>
+        <div class="avatar-name">
             <img class="avatar" height="<%= size %>" width="<%= size %>" src="<%= avatar %>"/>
             <div style="margin-left: 8px;"><%= name %></div>
         </div>
-        <div style="text-align: right; color: #14eb14; padding: 0 12px;"><%= details %></div>
+        <div class="details"><%= details %></div>
     </div>
 </div>
