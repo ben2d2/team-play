@@ -8,7 +8,7 @@ class Users::DashboardController < ApplicationController
         avatar: "https://static.thenounproject.com/png/2754531-200.png",
         name: user_organization.organization.name,
         details: nil,
-        size: 80
+        size: 72
       }
     end
 
@@ -20,7 +20,7 @@ class Users::DashboardController < ApplicationController
           avatar: event.image_url,
           name: event.name,
           details: event.start_time.strftime("%m/%d/%y %l:%M%p"),
-          size: 80
+          size: 72
         }
       end
     end.flatten

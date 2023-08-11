@@ -16,9 +16,9 @@ Context: As a User (of any type)
 
 Context: As a User with Admin priveleges
     Scenario: Admin User signs in for the first time
-        When I sign in for the first time
-        Then I should see an option to "Manaage Organizations"
-        And I should see of a list of "active" Events with actions ("Join an Event", "Manage")
+D       When I sign in for the first time
+D       Then I should see an option to "Manaage Organizations"
+D       And I should see of a list of "active" Events with actions ("Join an Event", "Manage")
 
     Scenario: Manage Organizations
         When I "Manage Organizations"
