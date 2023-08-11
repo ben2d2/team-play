@@ -8,6 +8,10 @@ class User < ApplicationRecord
   attribute :phone, :string
   attribute :email, :string
   attribute :team_id, :integer
+
+  def is_admin
+    user_organizations.map(&:is_admin).select { |i| i == true }.any? 
+  end
   
   has_many :user_teams
   has_and_belongs_to_many :teams, class_name: 'Team', join_table: 'user_teams'
