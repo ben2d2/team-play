@@ -7,7 +7,7 @@ class Users::DashboardController < ApplicationController
         place: nil,
         avatar: "https://static.thenounproject.com/png/2754531-200.png",
         name: user_organization.organization.name,
-        details: nil,
+        details: "Edit",
         size: 72
       }
     end
