@@ -1,0 +1,55 @@
+User with Event priveleges
+    - can "Join an Event" using a provided "Event Code"
+
+User with Admin priveleges
+- can add and manage Organizations and set up Events, Users,Rounds, Contests, etc.
+- can "Join an Event" using a provided "Event Code"
+
+Context: As a User (of any type)    
+    Scenario: Join an Event (with Code or as Admin User)
+        When I enter my Event Code
+        Then I should be redirected to the Event Dashboard
+        And I should see my Scorecard
+        And I should see a list of "Rounds/Contests" with actions
+
+------------------------------------------------------------------------------------------------------------------
+
+Context: As a User with Admin priveleges
+    Scenario: Admin User signs in for the first time
+        When I sign in for the first time
+        Then I should see an option to "Manaage Organizations"
+        And I should see of a list of "active" Events with actions ("Join an Event", "Manage")
+
+    Scenario: Manage Organizations
+        When I "Manage Organizations"
+        Then I should see a list of Organizations
+        And I should see an option to "Create an Organization"
+        
+        When I "Create an Organozation"
+        Then I should see a form to create an Organization
+        And I save the Organization
+        Then I should be redirected to a Dashboard for my Organization
+        And I should see a list of Events for my Organization
+        And I should see an option to "Manage Events"
+
+    Scenario: Organization Event management 
+        When I "Manage Events"
+        Then I should see a list of Events with actions from my Organization
+
+        And I should see an option to "Create an Event"
+        Scenario: Create an Event
+            When I "Create an Event"
+            Then I should see a form to create an Event
+            And I save the Event
+            Then I should see Event details
+            And I should see an option to "Invite a Users"
+            And I should see an option to "Upload & Invite Users"
+
+        And I should see an option to "Manage Users"
+        Scenario: Manage Users 
+            When I "Manage Users"
+            Then I should see a list of Users with actions
+            And I should see a button to "Invite a User"
+            And I should see an option to "Upload Users"
+
+        

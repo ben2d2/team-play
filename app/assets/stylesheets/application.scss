@@ -24,17 +24,26 @@
 
  body {
   background-color: $dark;
+  color: white;
   height: 100%;
  }
 
   a:link {
-    color: $secondary;
+    color: $limegreen;
   }
   a:visited {
-    color: $secondary;
+    color: $limegreen;
   }
   a:hover {
     color: $primary;
+  }
+  
+  .w3-top {
+    background-color: $dark;
+  }
+
+  .w3-content {
+    background-color: $dark;
   }
 
  .header {
@@ -42,17 +51,10 @@
   flex-direction: row;
   justify-content: space-between;
   padding: 4px 8px;
-  background-color: #f8f8f8;
- }
-
- .event-header {
-  padding: 12px;
-  background-color: $dark;
   color: white;
-  font-size: 16px;
-  font-weight: 500;
-  text-align: center;
-  text-transform: uppercase;
+  img {
+    filter: brightness(0) invert(1);
+  }
  }
 
  .header-nav-button {
@@ -68,8 +70,7 @@
  .nav-links {
   display: flex;
   flex-direction: column;
-  background-color: #f8f8f8;
-  border-bottom: 2px solid #ccc;
+  background-color:$limegreen;
  }
 
  .nav-link:link {
@@ -90,6 +91,14 @@
   background-color: $secondary;
   border-bottom: none;
   color: $primary;
+ }
+
+ .app-section {
+  margin-top: 8px;
+  padding: 0 16px;
+  .list-view {
+    margin-top: 16px;
+  }
  }
 
  .scorecard {
@@ -175,20 +184,27 @@
   }
  }
 
- .medium {
-  margin: 0;
-  font-weight: normal;
- }
-
- .small {
-  margin: 0;
-  font-weight: normal;
+ .app-container {
+  display: flex;
+  flex-direction: column;
  }
 
  .page-header {
   display: flex;
   justify-content: center;
-  color: white
+  color: white;
+  margin: 4px;
+ }
+
+ .section-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  font-size: 16px;
+  color: white;
+  margin: 4px;
+  padding: 4px 0;
+  border-bottom: 1px solid #999;
  }
 
  .avatar {
@@ -226,7 +242,7 @@
     .details {
       text-align: right; 
       color: $limegreen; 
-      padding: 0 12px;
+      padding: 0 16px 0 12px;
     }
   }
  }

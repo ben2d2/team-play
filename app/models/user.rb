@@ -11,4 +11,7 @@ class User < ApplicationRecord
   
   has_many :user_teams
   has_and_belongs_to_many :teams, class_name: 'Team', join_table: 'user_teams'
+
+  has_many :user_organizations
+  has_and_belongs_to_many :organizations, class_name: 'Organization', join_table: 'user_organizations'
 end

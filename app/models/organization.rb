@@ -8,5 +8,6 @@ class Organization < ApplicationRecord
 	attribute :zip_code, :string
 	attribute :image_url, :string
 
-	has_many :events
+	has_many :organization_events
+  	has_and_belongs_to_many :events, class_name: 'Event', join_table: 'organization_events'
 end

@@ -23,30 +23,31 @@
     </div>
     </div>
     <div id="nav-links-container">
-    <div class="nav-links">
-      <a class="nav-link" href="/users/dashboard"><i class="fa fa-info-circle"></i> Dashboard</a>
-      <a class="nav-link" href="/users/scorecard"><i class="fa fa-star"></i> Scorecard</a>
-      <a class="nav-link" href="/users/leaderboard"><i class="fa fa-trophy"></i> Leaderboard</a>
-      <hr style="margin: 0">
-      <a class="nav-link" href="#"><i class="fa fa-user"></i> Profile</a>
-      <a class="nav-link" href="#"><i class="fa fa-calendar"></i> Events</a>
-      <!--if current_user.is_organization_admin-->
-      <a class="nav-link" href="#"><i class="fa fa-sitemap"></i> Organizations</a>
+      <div class="nav-links">
+        <a class="nav-link" href="/users/dashboard"><i class="fa fa-info-circle"></i> Dashboard</a>
+        <a class="nav-link" href="/users/scorecard"><i class="fa fa-star"></i> Scorecard</a>
+        <a class="nav-link" href="/users/leaderboard"><i class="fa fa-trophy"></i> Leaderboard</a>
+        <hr style="margin: 0">
+        <a class="nav-link" href="#"><i class="fa fa-user"></i> Profile</a>
+        <a class="nav-link" href="#"><i class="fa fa-calendar"></i> Events</a>
+        <!--if current_user.is_organization_admin-->
+        <a class="nav-link" href="#"><i class="fa fa-sitemap"></i> Organizations</a>
+        <%= link_to "Sign Out", destroy_user_session_path, method: :delete, class: "nav-link" %>
+      </div>
     </div>
   </div>
 </div>
 
 <!-- Page content -->
-<div class="w3-content" style="max-width:2000px;margin-top:46px">
-  <div class="event-header">
-    IPD 2023 Summer Games
+<div class="w3-content" style="max-width:2000px;margin-top:44px">
+  <div class="app-container">
+    <% flash.each do |key, value| %>
+      <div class="<%= flash_class(key) %>">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <%= value %>
+      </div>
+    <% end %>
+    <%= yield %>
   </div>
-  <% flash.each do |key, value| %>
-    <div class="<%= flash_class(key) %>">
-      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-      <%= value %>
-    </div>
-  <% end %>
-  <%= yield %>
 </body>
 </html>

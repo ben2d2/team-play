@@ -1,8 +1,21 @@
-<div class="page-header">ROUNDS/CONTESTS</div>
-<%= render partial: '/components/scorecard' %>
-
-<div class="rounds-contests-container">
-    <% @rounds.each do |round| %>
-        <%= render partial: "/components/avatar_name_details_row", locals: round %>
-    <% end %>
+<div class="page-header">DASHBOARD</div>
+<div class="app-section">
+    <div class="section-header">
+        <div>Organizations</div>
+    </div>
+    <div class="list-view">
+        <% @organizations.each do |organization| %>
+            <%= render partial: "/components/avatar_name_details_row", locals: organization%>
+        <% end %>
+    </div>
+</div>
+<div class="app-section">
+    <div class="section-header">
+        <div>Events</div>
+    </div>
+    <div class="list-view">
+        <% @events.each do |event| %>
+            <%= render partial: "/components/avatar_name_details_row", locals: event%>
+        <% end %>
+    </div>
 </div>
