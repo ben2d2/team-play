@@ -9,4 +9,5 @@ class Contest < ApplicationRecord
 
 	belongs_to :organization
 	has_many :contest_groups
+	has_many :event_team_contests
 end

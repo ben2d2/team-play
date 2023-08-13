@@ -1,6 +1,9 @@
+<% if !link.nil? %>
+    <a href="<%= link %>">
+<% end %>
 <div class="avatar-name-details-container">
-    <% if !place.nil? %>
-        <div class="pre-row"><%= place %></div>
+    <% if !pre_row.nil? %>
+        <div class="pre-row"><%= pre_row %></div>
     <% end %>
     <% if size.nil? %>
         <div class="avatar-name-details-row">
@@ -14,3 +17,6 @@
         <div class="details"><%= details %></div>
     </div>
 </div>
+<% if !!link %>
+    </a>
+<% end %>

@@ -1,0 +1,9 @@
+<div class="page-header"><%= @event.name %></div>
+<div class="page-header">ROUNDS/CONTESTS</div>
+<%= render partial: '/components/scorecard' %>
+
+<div class="rounds-contests-container">
+    <% @rounds.each do |round| %>
+        <%= render partial: "/components/avatar_name_details_row", locals: round %>
+    <% end %>
+</div>

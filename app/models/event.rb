@@ -8,4 +8,6 @@ class Event < ApplicationRecord
 
 	has_one :organization
 	has_many :event_rounds
+	has_many :event_team_contests
+	has_many :teams
 end
