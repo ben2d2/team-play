@@ -16,9 +16,12 @@ class ScorecardPresenter
         link: nil,
         avatar: avatar,
         avatar_size: avatar_size,
+        size: avatar_size,
         title: title,
+        name: title,
         subtitle: subtitle,
-        points: scorecard_score
+        points: scorecard_score,
+        details: "#{scorecard_score} pts."
         }
     end
 end

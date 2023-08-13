@@ -252,10 +252,11 @@
   display: flex;
   flex-direction: row;
   width: 100%;
-  justify-content: center;
+  justify-content: space-between;
   background-color: #323232;
   background-image: linear-gradient(#292929, #454545, #292929);
   align-items: center;
+  padding: 0 12px;
   margin-bottom: 16px;
  }
 
@@ -290,7 +291,6 @@
   .leader-points {
     color: $limegreen;
     font-size: 20px;
-    margin-top: 8px;
   }
 }
 

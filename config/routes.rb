@@ -8,7 +8,10 @@ Rails.application.routes.draw do
 
   namespace :users do
     resources :dashboard, only: %w[index]
-    resources :events, only: %w[index show]
+    resources :events, only: %w[index show] do
+      resources :leaderboard, only: %w[index]
+      resources :scorecard, only: %w[show]
+    end
     resources :leaderboard, only: %w[index]
     resources :scorecard, only: %w[index]
   end

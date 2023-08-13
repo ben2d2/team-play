@@ -1,8 +1,8 @@
-<div class="page-header">IPD 2023 SUMMER GAMES</div>
+<div class="page-header"><%= @event.name %></div>
 <div class="page-header">LEADERBOARD</div>
 <%= render partial: "/components/leaderboard_leaders" %>
 <div class="leaderboard-rest-of-the-pack">
     <% @the_rest_of_the_field.each do |c| %>
-        <%= render partial: '/components/avatar_name_details_row', locals: { name: c[:name], details: c[:details], avatar: c[:avatar], place: c[:place], size: 50} %>
+        <%= render partial: '/components/avatar_name_details_row', locals: { name: c[:name], link: c[:link], details: c[:details], avatar: c[:avatar], pre_row: c[:pre_row], points: c[:points], size: 50} %>
     <% end %>
 </div>

@@ -1,4 +1,4 @@
-<div class="page-header"><%= @event.name %></div>
+<div class="page-header"><%= @event.name %><a href="/users/events/<%= @event.id%>/leaderboard"><i class="fa fa-trophy" style="margin-left: 12px; margin-top: 2px; font-size: 20px; color: #ffa90b"></i></a></div>
 <div class="page-header">ROUNDS/CONTESTS</div>
 <%= render partial: '/components/scorecard' %>
 
