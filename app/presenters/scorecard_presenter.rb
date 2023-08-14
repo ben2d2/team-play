@@ -12,16 +12,12 @@ class ScorecardPresenter
         scorecard_score = event_team.event_team_contests.sum { |etc| !etc.score.nil? ? etc.score : 0 }
 
         {
-        pre_row: pre_row,
-        link: nil,
-        avatar: avatar,
-        avatar_size: avatar_size,
-        size: avatar_size,
-        title: title,
-        name: title,
-        subtitle: subtitle,
-        points: scorecard_score,
-        details: "#{scorecard_score} pts."
+            pre_row: pre_row,
+            link: nil,
+            avatar: avatar,
+            size: avatar_size,
+            name: title,
+            details: "#{scorecard_score} pts."
         }
     end
 end

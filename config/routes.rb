@@ -10,9 +10,7 @@ Rails.application.routes.draw do
     resources :dashboard, only: %w[index]
     resources :events, only: %w[index show] do
       resources :leaderboard, only: %w[index]
-      resources :scorecard, only: %w[show]
+      resources :scorecard, only: %w[show update]
     end
-    resources :leaderboard, only: %w[index]
-    resources :scorecard, only: %w[index]
   end
 end

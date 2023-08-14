@@ -1,0 +1,37 @@
+<div class="page-header"><a href="/users/events/<%= @event.id %>"><i class="fa fa-arrow-left"></i> <%= @event.name %></a></div>
+<div class="page-subheader">ROUND <%= @round %></div>
+<div class="scorecard">
+    <div class="scorecard-container">
+        <%= render partial: "/components/leaderboard_leader", locals: @scorecard %>
+    </div>
+</div>
+<div class="contest">
+  <%= render partial: "/components/contest_header", locals: @contest %>
+  
+  <div class="contest-team-score">
+    <% if @event_team_contest.score.nil? %>
+      <p class="medium">Enter your score for this round</p>
+      <%= form_with url: "/users/events/#{@event.id}/scorecard/#{@event_team_contest.id}", method: :put do |form| %>
+        <div class="score-form">
+            <%= form.number_field :score, placeholder: "Max #{@contest[:max_points]} pts." %>
+            <%= form.hidden_field :round, value: @round %>
+            <%= form.hidden_field :team_id, value: @team_id %>
+            <%= form.submit "Next Round", class: "submit-button" %>
+        </div>
+      <% end %>
+    <% else %>
+      <div class="your-score-for-this-round">
+        Your score for this round: <%= @event_team_contest.score %> pts.
+      </div>
+    <% end %>
+  </div>
+  
+  <div class="contest-competition-container">
+    <p>Your competition for this round?</p>
+    <div class="contest-competition">
+      <% @competition.each do |c| %>
+        <%= render partial: '/components/avatar_name_details_row', locals: c %>
+      <% end %>
+    </div>
+  </div>
+</div>

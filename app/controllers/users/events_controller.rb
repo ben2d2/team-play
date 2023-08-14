@@ -14,7 +14,7 @@ class Users::EventsController < ApplicationController
     @scorecard = ScorecardPresenter.presenter(@event, event_team)
 
     @rounds = @event.event_team_contests.where(team_id: event_team.id).sort_by { |etc| etc.event_round.order }.map do |etc|
-      RoundPresenter.presenter(etc.contest, etc.event_round.order)
+      RoundPresenter.presenter(@event, etc)
     end
 	end
 

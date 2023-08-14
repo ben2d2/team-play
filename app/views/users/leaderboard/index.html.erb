@@ -1,8 +1,8 @@
-<div class="page-header"><%= @event.name %></div>
-<div class="page-header">LEADERBOARD</div>
+<div class="page-header"><a href="/users/events/<%= @event.id %>"><i class="fa fa-arrow-left"></i> <%= @event.name %></a></div>
+<div class="page-subheader">LEADERBOARD</div>
 <%= render partial: "/components/leaderboard_leaders" %>
 <div class="leaderboard-rest-of-the-pack">
     <% @the_rest_of_the_field.each do |c| %>
-        <%= render partial: '/components/avatar_name_details_row', locals: { name: c[:name], link: c[:link], details: c[:details], avatar: c[:avatar], pre_row: c[:pre_row], points: c[:points], size: 50} %>
+        <%= render partial: '/components/avatar_name_details_row', locals: c %>
     <% end %>
 </div>

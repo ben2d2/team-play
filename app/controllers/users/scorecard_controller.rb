@@ -1,48 +1,65 @@
 class Users::ScorecardController < ApplicationController
   before_action :authenticate_user!
-  def index
-    @round = 1
 
-    @scorecard = {
-      pre_row: "1st",
-      link: nil,
-      avatar: "https://media.istockphoto.com/id/944272094/photo/close-up-of-lion-panthera-leo-8-years-old-in-front-of-white-background.jpg?s=612x612&w=0&k=20&c=wXU4T0sAn27IHJlDAB4VwHXBf_yGJ8SQ5hlCLw4yqrg=",
-      avatar_size: 100,
-      title: "Lions",
-      subtitle: "Bridges/Gonzalez",
-      points: 180
+  def show
+    @event = Event.where(
+      id: scorecard_params[:event_id]
+    ).first
+
+    @event_team_contest = @event.event_team_contests.where(
+      id: scorecard_params[:id]
+    ).first
+
+    @team_id = @event_team_contest.team.id
+
+    event_round = @event_team_contest.event_round
+    @round = event_round.order
+
+    @scorecard = ScorecardPresenter.presenter(@event, @event_team_contest.team)
+
+    contest = @event_team_contest.contest
+    @contest = { 
+      avatar: contest.image_url,
+      name: contest.name,
+      max_points: contest.max_points_per_attempt * contest.no_of_contest_attempts,
+      contest_id: contest.id
     }
+    leaderboard_teams = @event.teams.map do |team|
+      LeaderboardTeamPresenter.presenter(@event, team)
+    end
 
-    @competition = [
+    @competition = @event.event_team_contests.where(contest_id: contest.id, event_round_id: event_round.id).map do |etc|
+      team = etc.team
+      score_and_rank = leaderboard_teams.select { |lt| lt[:id] == team.id }.first
       {
         pre_row: nil,
         link: nil,
-        avatar: "https://www.acsh.org/sites/default/files/images/shutterstock_134513474.jpg",
-        name: "Pandas",
-        details: "120 pts"
-      },
-      {
-        pre_row: nil,
-        link: nil,
-        avatar: "https://pyxis.nymag.com/v1/imgs/905/806/9c941ab254519877732edde7a485369567-01-elephants.rsquare.w700.jpg",
-        name: "Elephants",
-        details: "119 pts"
-      },
-      {
-        pre_row: nil,
-        link: nil,
-        avatar: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzbQf0LrEzu_hHMJ1eJVIn7mrglk07WbKYmA&usqp=CAU",
-        name: "Seahorses",
-        details: "112 pts"
-      },
-      {
-        pre_row: nil,
-        link: nil,
-        avatar: "https://cdn.outsideonline.com/wp-content/uploads/migrated-images_parent/migrated-images_64/skunk-summer-problem-white-stripes_s.jpg?crop=1:1&width=600&enable=upscale&quality=100",
-        name: "Skunks",
-        details: "100 pts"
+        avatar: team.image_url,
+        name: team.name,
+        size: 60,
+        details: "#{score_and_rank[:pre_row]}#{score_and_rank[:pre_row].ordinal} - #{score_and_rank[:details]}"
       }
-    ]
+    end.sort_by { |t| t[:details] }.reverse
+
     render
+  end
+
+  def update
+    etc = EventTeamContest.where(id: scorecard_params[:id]).first
+    etc.score = scorecard_params[:score]
+    if etc.save!
+      rounds_for_team = EventTeamContest.where(event_id: scorecard_params[:event_id], team_id: scorecard_params[:team_id])
+      next_round_id = rounds_for_team.select { |rft| rft.event_round.order == scorecard_params[:round].to_i }.first.id
+      flash[:success] = "Your score for #{etc.contest.name} has been saved"
+      redirect_to "/users/events/#{scorecard_params[:event_id]}/scorecard/#{next_round_id}"
+    else
+      flash[:error] = "Your score for #{etc.contest.name} could not be saved"
+      render
+    end
+  end
+
+	private
+	def scorecard_params
+    params.permit(:event_id, :id, :score, :round, :team_id)
   end
 end

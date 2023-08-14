@@ -15,9 +15,6 @@ class Users::LeaderboardController < ApplicationController
     leaders_sort_order = [2, 1, 3]
     leaderboard_teams.select { |team| !team[:pre_row].nil? && team[:pre_row] <= 3 }.each do |team|
       index = leaders_sort_order.find_index(team[:pre_row])
-      if team[:pre_row] == 1
-        team[:size] = 100
-      end
       @leaders[index] = team
     end
 

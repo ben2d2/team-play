@@ -1,9 +1,14 @@
 <div class="page-header"><%= @event.name %><a href="/users/events/<%= @event.id%>/leaderboard"><i class="fa fa-trophy" style="margin-left: 12px; margin-top: 2px; font-size: 20px; color: #ffa90b"></i></a></div>
-<div class="page-header">ROUNDS/CONTESTS</div>
-<%= render partial: '/components/scorecard' %>
-
-<div class="rounds-contests-container">
-    <% @rounds.each do |round| %>
-        <%= render partial: "/components/avatar_name_details_row", locals: round %>
-    <% end %>
+<div class="page-subheader">ROUNDS/CONTESTS</div>
+<div class="scorecard">
+    <div class="scorecard-container">
+        <%= render partial: "/components/leaderboard_leader", locals: @scorecard %>
+    </div>
+</div>
+<div class="event">
+    <div class="rounds-contests-container">
+        <% @rounds.each do |round| %>
+            <%= render partial: "/components/avatar_name_details_row", locals: round %>
+        <% end %>
+    </div>
 </div>
