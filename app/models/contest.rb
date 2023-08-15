@@ -6,6 +6,7 @@ class Contest < ApplicationRecord
 	attribute :no_of_contest_attempts, :integer
 	attribute :max_points_per_attempt, :integer
 	attribute :organization_id, :integer
+	attribute :contest_type, :string
 
 	belongs_to :organization
 	has_many :contest_groups

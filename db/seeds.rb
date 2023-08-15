@@ -16,16 +16,16 @@ organization = Organization.first
 #         no_of_practice_attempts: 3,
 #         no_of_contest_attempts: 4, 
 #         max_points_per_attempt: 3,
-#         organization_id: organization.id
-#     )
+#         organization_id: organization.id,
+#         contest_type: ["Flip Cup", "Tug-o-War", "Potato Sack Race", "Egg Toss"].include?(contest) ? "Group" : "Team"
+#      )
 # end
 
 event = organization.organization_events.map(&:event).first
 event_rounds = event.event_rounds
-teams = event.teams
 
-# teams = []
-# ["Bridges", "Marrale", "Fogarty", "Pietsch", "Echerd", "Wingo", "Verner", "Varner", "Simmonds", "Gresham","Duffy", "Webb", "Smith", "Jackson", "Lapp", "McCrae", "Porter", "Hill", "Wright", "Wilson","Davis", "Boen", "Russel", "Foster", "White", "Bledsoe", "Barnes", "Phillips"].each do |last_name|
+
+# ["Bridges", "Marrale", "Fogarty", "Pietsch", "Echerd", "Wingo", "Verner", "Varner", "Simmonds", "Gresham","Duffy", "Webb", "Smith", "Jackson", "Lapp", "McCrae", "Porter", "Hill", "Wright", "Wilson","Davis", "Boen", "Russel", "Foster", "White", "Bledsoe", "Barnes", "Phillips", "Vinson"].each do |last_name|
 #     users = []
 #     ["A", "B"].each do |first_name|
 #         name = "#{first_name} #{last_name}"
@@ -42,51 +42,77 @@ teams = event.teams
 #     end
 #     team = Team.new(event_id: event.id, name: "Team #{last_name}", image_url: "https://png.pngtree.com/png-vector/20210604/ourmid/pngtree-gray-network-placeholder-png-image_3416659.jpg")
 #     team.save
-#     teams.push(team)
 #     users.each do |user|
 #         UserTeam.create(user_id: user.id, team_id: team.id)
 #     end
 # end
 
-group_event_rounds = event_rounds.where(round_type: "Group")
-group_type_contests = Contest.where(name: ["Flip Cup", "Tug-o-War", "Potato Sack Race", "Egg Toss"])
+teams = event.teams
 
-team_event_rounds = event_rounds.where.not(id: group_event_rounds)
-team_type_contests = Contest.where.not(id: group_type_contests).first(team_event_rounds.count)
+group_event_rounds = event_rounds.where(round_type: "Group")
+group_type_contests = Contest.where(contest_type: "Group")
+
+team_rounds = event_rounds.where.not(id: group_event_rounds)
+team_contests = Contest.where.not(id: group_type_contests).first(team_rounds.count)
 
 group_sizes_per = []
-team_event_rounds.count.times {|i| group_sizes_per.push(0)}
+team_rounds.count.times {|i| group_sizes_per.push(0)}
 teams.count.times { group_sizes_per[group_sizes_per.index(group_sizes_per.min)] += 1 }
+# [5, 5, 5, 5, 5, 4]
 
-ids_per_contest = team_type_contests.map do |contest| 
-    [contest.id, []]
-end.to_h
+# ids_per_contest = team_contests.map do |contest| 
+#     [
+#         contest.id,
+#         []
+#     ]
+# end.to_h
 
-team_event_rounds.each.with_index do |round, r|
-    team_type_contests.each.with_index do |contest, c|
-        max_per = group_sizes_per[r]
-        available_teams = teams.where.not(id: ids_per_contest[contest.id].flatten).shuffle
-        picked_teams = available_teams.pop(max_per).map(&:id)
-        ids_per_contest[contest.id].push(picked_teams)
+team_trackers = teams.map { |t| [t.id, { contests: [] }] }.to_h
+puts(team_trackers)
+
+final_rounds = {}
+team_rounds.each do |round|
+    contest_slots = team_contests.map {|contest| [contest.id, []]}.to_h
+    assigned_teams_for_round = []
+
+    contest_slot = 0
+
+    while assigned_teams_for_round.count < teams.count do
+        contest = team_contests[contest_slot]
+
+        potential_teams = teams.select do |team|
+            !team_trackers[team.id][:contests].include?(contest.id) && !assigned_teams_for_round.include?(team.id)
+        end
+
+        contest_slot = (contest_slot + 1) % team_contests.count;
+
+        if potential_teams.count > 0
+            chosen_team = potential_teams.shuffle.first
+            team_trackers[chosen_team.id][:contests].push(contest.id) #Mark that the team has been assigned this contest in any round
+            assigned_teams_for_round.push(chosen_team.id) #Mark that this team has been assigned a contest for this round
+
+            contest_slots[contest.id].push(chosen_team.id) #Add this team to the current contest for this round
+        end
     end
+    final_rounds[round.id] = contest_slots
 end
 
-puts(ids_per_contest.to_json)
+puts(final_rounds)
 
-ids_per_contest.each do |contest_id, team_ids_list|
-    team_event_rounds.each.with_index do |round, ri|
-        team_ids_list[ri].each do |id|
+final_rounds.each do |round_id, contests|
+    contests.each do |contest_id, team_ids|
+        team_ids.each do |id|
             EventTeamContest.create(
                 event_id: event.id,
                 contest_id: contest_id,
                 team_id: id,
-                event_round_id: round.id
+                event_round_id: round_id
             )
         end
     end
 end
 
-EventTeamContest.all.group_by(&:team_id).map do |team_id, team_etcs|
+by_contest = EventTeamContest.all.group_by(&:team_id).map do |team_id, team_etcs|
     [
         team_id, 
         team_etcs.group_by(&:contest_id).map do |contest_id, team_contest_etcs|
@@ -94,5 +120,24 @@ EventTeamContest.all.group_by(&:team_id).map do |team_id, team_etcs|
         end.to_h
     ]
 end.to_h
+puts(by_contest)
 
+by_round = EventTeamContest.all.group_by(&:team_id).map do |team_id, team_etcs|
+    [
+        team_id, 
+        team_etcs.group_by(&:event_round_id).map do |round_id, team_contest_etcs|
+            [round_id, team_contest_etcs.count]
+        end.to_h
+    ]
+end.to_h
+puts(by_round)
+
+total_per_round_contest = EventTeamContest.all.group_by {|etc| "#{etc.event_round_id}-#{etc.contest_id}"}.map do |key, team_etcs|
+    [
+        key, 
+        team_etcs.count
+    ]
+end.to_h
+
+puts(total_per_round_contest)
 puts("SUCCESS!!!")

@@ -10,13 +10,15 @@ class Users::LeaderboardController < ApplicationController
       LeaderboardTeamPresenter.presenter(@event, team)
     end
 
-    @leaders = []
+    leaders = []
     
     leaders_sort_order = [2, 1, 3]
     leaderboard_teams.select { |team| !team[:pre_row].nil? && team[:pre_row] <= 3 }.each do |team|
       index = leaders_sort_order.find_index(team[:pre_row])
-      @leaders[index] = team
+      leaders[index] = team
     end
+    @leaders = leaders.compact()
+  
 
     @the_rest_of_the_field = leaderboard_teams.select do |team| 
       !team[:pre_row].nil? && team[:pre_row] > 3
