@@ -28,7 +28,7 @@ class Users::ScorecardController < ApplicationController
       LeaderboardTeamPresenter.presenter(@event, team)
     end
 
-    @competition = @event.event_team_contests.where(contest_id: contest.id, event_round_id: event_round.id).map do |etc|
+    @competition = @event.event_team_contests.where.not(team_id: @team_id).where(contest_id: contest.id, event_round_id: event_round.id).map do |etc|
       team = etc.team
       score_and_rank = leaderboard_teams.select { |lt| lt[:id] == team.id }.first
       {
