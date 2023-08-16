@@ -21,10 +21,6 @@ organization = Organization.first
      )
 end
 
-event = organization.organization_events.map(&:event).first
-event_rounds = event.event_rounds
-
-
 ["Fitzpatrick", "Bridges", "Marrale", "Fogarty", "Pietsch", "Echerd", "Wingo", "Verner", "Varner", "Simmonds", "Gresham","Duffy", "Webb", "Smith", "Jackson", "Lapp", "McCrae", "Porter", "Hill", "Wright", "Wilson","Davis", "Boen", "Russel", "Foster", "White", "Bledsoe", "Barnes", "Phillips", "Vinson"].each do |last_name|
     users = []
     ["A", "B"].each do |first_name|
@@ -47,16 +43,20 @@ event_rounds = event.event_rounds
     end
 end
 
+event = organization.organization_events.map(&:event).first
+event_rounds = event.event_rounds
 teams = event.teams
 
+# GROUP ROUNDS/CONTESTS GENERATOR
 group_event_rounds = event_rounds.where(round_type: "Group")
 group_type_contests = Contest.where(contest_type: "Group")
 
+# ------------------------------------------------------------------
+
+# TEAM ROUNDS/CONTESTS GENERATOR
 team_rounds = event_rounds.where.not(id: group_event_rounds)
 team_contests = Contest.where.not(id: group_type_contests).first(team_rounds.count)
-
 team_trackers = teams.map { |t| [t.id, { contests: [] }] }.to_h
-
 final_rounds = {}
 contest_slot = 0
 team_rounds.each do |round|
@@ -96,12 +96,12 @@ final_rounds.each do |round_id, contests|
     end
 end
 
-total_per_round_contest = EventTeamContest.all.group_by {|etc| "#{etc.event_round_id}-#{etc.contest_id}"}.map do |key, team_etcs|
-    [
-        key, 
-        team_etcs.count
-    ]
-end.to_h
+# total_per_round_contest = EventTeamContest.all.group_by {|etc| "#{etc.event_round_id}-#{etc.contest_id}"}.map do |key, team_etcs|
+#     [
+#         key, 
+#         team_etcs.count
+#     ]
+# end.to_h
+# puts(total_per_round_contest.to_json)
 
-puts(total_per_round_contest.to_json)
 puts("SUCCESS!!!")
