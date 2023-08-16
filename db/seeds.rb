@@ -1,51 +1,51 @@
-# User.delete_all
-# UserOrganization.delete_all
-# Team.delete_all
-# UserTeam.delete_all
-# Contest.delete_all
+User.delete_all
+UserOrganization.delete_all
+Team.delete_all
+UserTeam.delete_all
+Contest.delete_all
 EventTeamContest.delete_all
 
 organization = Organization.first
 
 #seed contests
-# ["Spear Throw", "Home Run Derby", "Horse Shoes", "Flip Cup", "Bear Pong", "Bearsbee", "Hula Bowl", "Tug-o-War", "Egg Toss", "Potato Sack Race"].each.with_index do |contest, i|
-#     Contest.create(
-#         name: contest, 
-#         image_url: "https://png.pngtree.com/png-vector/20210604/ourmid/pngtree-gray-network-placeholder-png-image_3416659.jpg", 
-#         location: "Site #{i + 1}", 
-#         no_of_practice_attempts: 3,
-#         no_of_contest_attempts: 4, 
-#         max_points_per_attempt: 3,
-#         organization_id: organization.id,
-#         contest_type: ["Flip Cup", "Tug-o-War", "Potato Sack Race", "Egg Toss"].include?(contest) ? "Group" : "Team"
-#      )
-# end
+["Spear Throw", "Home Run Derby", "Horse Shoes", "Flip Cup", "Bear Pong", "Bearsbee", "Hula Bowl", "Tug-o-War", "Egg Toss", "Potato Sack Race"].each.with_index do |contest, i|
+    Contest.create(
+        name: contest, 
+        image_url: "https://png.pngtree.com/png-vector/20210604/ourmid/pngtree-gray-network-placeholder-png-image_3416659.jpg", 
+        location: "Site #{i + 1}", 
+        no_of_practice_attempts: 3,
+        no_of_contest_attempts: 4, 
+        max_points_per_attempt: 3,
+        organization_id: organization.id,
+        contest_type: ["Flip Cup", "Tug-o-War", "Potato Sack Race", "Egg Toss"].include?(contest) ? "Group" : "Team"
+     )
+end
 
 event = organization.organization_events.map(&:event).first
 event_rounds = event.event_rounds
 
 
-# ["Bridges", "Marrale", "Fogarty", "Pietsch", "Echerd", "Wingo", "Verner", "Varner", "Simmonds", "Gresham","Duffy", "Webb", "Smith", "Jackson", "Lapp", "McCrae", "Porter", "Hill", "Wright", "Wilson","Davis", "Boen", "Russel", "Foster", "White", "Bledsoe", "Barnes", "Phillips", "Vinson"].each do |last_name|
-#     users = []
-#     ["A", "B"].each do |first_name|
-#         name = "#{first_name} #{last_name}"
-#         email = "#{first_name}#{last_name}@squacho.com"
-#         organization_id = organization.id
-#         phone = "5555555555"
-#         password = "password"
-#         password_confirmation = "password"
-#         is_admin = name == "A Bridges"
+["Fitzpatrick", "Bridges", "Marrale", "Fogarty", "Pietsch", "Echerd", "Wingo", "Verner", "Varner", "Simmonds", "Gresham","Duffy", "Webb", "Smith", "Jackson", "Lapp", "McCrae", "Porter", "Hill", "Wright", "Wilson","Davis", "Boen", "Russel", "Foster", "White", "Bledsoe", "Barnes", "Phillips", "Vinson"].each do |last_name|
+    users = []
+    ["A", "B"].each do |first_name|
+        name = "#{first_name} #{last_name}"
+        email = "#{first_name}#{last_name}@squacho.com"
+        organization_id = organization.id
+        phone = "5555555555"
+        password = "password"
+        password_confirmation = "password"
+        is_admin = name == "A Bridges"
 
-#         user = User.create(email: email, name: name, phone: phone, password: password, password_confirmation: password_confirmation)
-#         users.push(user)
-#         UserOrganization.create(user_id: user.id, organization_id: organization.id)
-#     end
-#     team = Team.new(event_id: event.id, name: "Team #{last_name}", image_url: "https://png.pngtree.com/png-vector/20210604/ourmid/pngtree-gray-network-placeholder-png-image_3416659.jpg")
-#     team.save
-#     users.each do |user|
-#         UserTeam.create(user_id: user.id, team_id: team.id)
-#     end
-# end
+        user = User.create(email: email, name: name, phone: phone, password: password, password_confirmation: password_confirmation)
+        users.push(user)
+        UserOrganization.create(user_id: user.id, organization_id: organization.id)
+    end
+    team = Team.new(event_id: event.id, name: "Team #{last_name}", image_url: "https://png.pngtree.com/png-vector/20210604/ourmid/pngtree-gray-network-placeholder-png-image_3416659.jpg")
+    team.save
+    users.each do |user|
+        UserTeam.create(user_id: user.id, team_id: team.id)
+    end
+end
 
 teams = event.teams
 
@@ -55,27 +55,13 @@ group_type_contests = Contest.where(contest_type: "Group")
 team_rounds = event_rounds.where.not(id: group_event_rounds)
 team_contests = Contest.where.not(id: group_type_contests).first(team_rounds.count)
 
-group_sizes_per = []
-team_rounds.count.times {|i| group_sizes_per.push(0)}
-teams.count.times { group_sizes_per[group_sizes_per.index(group_sizes_per.min)] += 1 }
-# [5, 5, 5, 5, 5, 4]
-
-# ids_per_contest = team_contests.map do |contest| 
-#     [
-#         contest.id,
-#         []
-#     ]
-# end.to_h
-
 team_trackers = teams.map { |t| [t.id, { contests: [] }] }.to_h
-puts(team_trackers)
 
 final_rounds = {}
+contest_slot = 0
 team_rounds.each do |round|
     contest_slots = team_contests.map {|contest| [contest.id, []]}.to_h
-    assigned_teams_for_round = []
-
-    contest_slot = 0
+    assigned_teams_for_round = [] 
 
     while assigned_teams_for_round.count < teams.count do
         contest = team_contests[contest_slot]
@@ -92,12 +78,10 @@ team_rounds.each do |round|
             assigned_teams_for_round.push(chosen_team.id) #Mark that this team has been assigned a contest for this round
 
             contest_slots[contest.id].push(chosen_team.id) #Add this team to the current contest for this round
-        end
+        end            
     end
     final_rounds[round.id] = contest_slots
 end
-
-puts(final_rounds)
 
 final_rounds.each do |round_id, contests|
     contests.each do |contest_id, team_ids|
@@ -112,26 +96,6 @@ final_rounds.each do |round_id, contests|
     end
 end
 
-by_contest = EventTeamContest.all.group_by(&:team_id).map do |team_id, team_etcs|
-    [
-        team_id, 
-        team_etcs.group_by(&:contest_id).map do |contest_id, team_contest_etcs|
-            [contest_id, team_contest_etcs.count]
-        end.to_h
-    ]
-end.to_h
-puts(by_contest)
-
-by_round = EventTeamContest.all.group_by(&:team_id).map do |team_id, team_etcs|
-    [
-        team_id, 
-        team_etcs.group_by(&:event_round_id).map do |round_id, team_contest_etcs|
-            [round_id, team_contest_etcs.count]
-        end.to_h
-    ]
-end.to_h
-puts(by_round)
-
 total_per_round_contest = EventTeamContest.all.group_by {|etc| "#{etc.event_round_id}-#{etc.contest_id}"}.map do |key, team_etcs|
     [
         key, 
@@ -139,5 +103,5 @@ total_per_round_contest = EventTeamContest.all.group_by {|etc| "#{etc.event_roun
     ]
 end.to_h
 
-puts(total_per_round_contest)
+puts(total_per_round_contest.to_json)
 puts("SUCCESS!!!")
