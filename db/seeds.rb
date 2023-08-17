@@ -3,15 +3,19 @@ UserOrganization.delete_all
 Team.delete_all
 UserTeam.delete_all
 Contest.delete_all
+ContestGroup.delete_all
 EventTeamContest.delete_all
 
+stock_image_url = "https://png.pngtree.com/png-vector/20210604/ourmid/pngtree-gray-network-placeholder-png-image_3416659.jpg"
 organization = Organization.first
+event = organization.organization_events.map(&:event).first
+event_rounds = event.event_rounds
 
 #seed contests
 ["Spear Throw", "Home Run Derby", "Horse Shoes", "Flip Cup", "Bear Pong", "Bearsbee", "Hula Bowl", "Tug-o-War", "Egg Toss", "Potato Sack Race"].each.with_index do |contest, i|
     Contest.create(
         name: contest, 
-        image_url: "https://png.pngtree.com/png-vector/20210604/ourmid/pngtree-gray-network-placeholder-png-image_3416659.jpg", 
+        image_url: stock_image_url, 
         location: "Site #{i + 1}", 
         no_of_practice_attempts: 3,
         no_of_contest_attempts: 4, 
@@ -36,26 +40,50 @@ end
         users.push(user)
         UserOrganization.create(user_id: user.id, organization_id: organization.id)
     end
-    team = Team.new(event_id: event.id, name: "Team #{last_name}", image_url: "https://png.pngtree.com/png-vector/20210604/ourmid/pngtree-gray-network-placeholder-png-image_3416659.jpg")
+    team = Team.new(event_id: event.id, name: "Team #{last_name}", image_url: stock_image_url)
     team.save
     users.each do |user|
         UserTeam.create(user_id: user.id, team_id: team.id)
     end
 end
 
-event = organization.organization_events.map(&:event).first
-event_rounds = event.event_rounds
 teams = event.teams
 
 # GROUP ROUNDS/CONTESTS GENERATOR
-group_event_rounds = event_rounds.where(round_type: "Group")
-group_type_contests = Contest.where(contest_type: "Group")
+group_rounds = event_rounds.where(round_type: "Group")
+group_contests = Contest.where(contest_type: "Group").shuffle
+
+group_rounds.each.with_index do |round, i|
+    contest = group_contests[i]
+    groups_teams = teams.shuffle.each_slice(teams.count / 2)
+    
+    groups_teams.each.with_index do |groups, gi|
+        
+        contest_group = ContestGroup.create(
+            contest_id: contest.id,
+            event_round_id: round.id,
+            name: "Group #{gi + 1}: #{contest.name}",
+            image_url: stock_image_url
+        )
+        groups.each do |team|
+            etc = EventTeamContest.new(
+                event_id: event.id,
+                contest_id: contest.id,
+                team_id: team.id,
+                event_round_id: round.id,
+                contest_group_id: contest_group.id
+            )
+
+            etc.save!
+        end
+    end
+end
 
 # ------------------------------------------------------------------
 
 # TEAM ROUNDS/CONTESTS GENERATOR
-team_rounds = event_rounds.where.not(id: group_event_rounds)
-team_contests = Contest.where.not(id: group_type_contests).first(team_rounds.count)
+team_rounds = event_rounds.where.not(id: group_rounds)
+team_contests = Contest.where.not(id: group_contests).first(team_rounds.count)
 team_trackers = teams.map { |t| [t.id, { contests: [] }] }.to_h
 final_rounds = {}
 contest_slot = 0
@@ -86,12 +114,14 @@ end
 final_rounds.each do |round_id, contests|
     contests.each do |contest_id, team_ids|
         team_ids.each do |id|
-            EventTeamContest.create(
+            etc = EventTeamContest.new(
                 event_id: event.id,
                 contest_id: contest_id,
                 team_id: id,
-                event_round_id: round_id
+                event_round_id: round_id,
+                contest_group_id: nil
             )
+            etc.save!
         end
     end
 end

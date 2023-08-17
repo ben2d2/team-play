@@ -21,7 +21,7 @@ class TeamRankHelper
         score_group[:team_ids].include?(team.id.to_s)
         end.first
         
-        rank = current_team_score_group[:rank]
+        rank = current_team_score_group.nil? ? 0 : current_team_score_group[:rank]
 
         rank
     end

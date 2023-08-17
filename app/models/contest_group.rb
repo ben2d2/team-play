@@ -5,7 +5,5 @@ class ContestGroup < ApplicationRecord
 	attribute :event_round_id, :integer
 
 	belongs_to :contest
-	has_many :contest_group_teams
-	has_many :teams, through: :contest_group_teams
 	belongs_to :event_round
 end
