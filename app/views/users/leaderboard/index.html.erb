@@ -1,8 +1,10 @@
 <div class="page-header"><a href="/users/events/<%= @event.id %>"><i class="fa fa-arrow-left"></i> <%= @event.name %></a></div>
 <div class="page-subheader">LEADERBOARD</div>
-<% if @leaders.count > 0 %>
+<% if @leaders.count == 3 %>
     <%= render partial: "/components/leaderboard_leaders", locals: { leaders: @leaders } %>
-<%end%>
+<% else %>
+    <p style="margin: 20px">Not enough scores have been captured yet. Check back later after everyone has completed the first contest.</p>
+<% end %>
 <div class="leaderboard-rest-of-the-pack">
     <% @the_rest_of_the_field.each do |c| %>
         <%= render partial: '/components/avatar_name_details_row', locals: c %>

@@ -14,7 +14,7 @@
  *= require_self
  */
  @import "font-awesome";
- @import 'bootstrap';
+//  @import 'bootstrap';
 
  $primary: #0b9ed3;
  $secondary: #ecf4f7;
@@ -26,6 +26,7 @@
   background-color: $dark;
   color: white;
   height: 100%;
+  font-size: 17px;
  }
 
   a:link {

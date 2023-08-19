@@ -27,10 +27,18 @@
   </div>
   
   <div class="contest-competition-container">
-    <p>Your competition for this round?</p>
     <div class="contest-competition">
-      <% @competition.each do |c| %>
-        <%= render partial: '/components/avatar_name_details_row', locals: c %>
+     <% if @my_group %>
+      <p>This is a Group Contest. All teams in your group shown below will act as one team for this round.</p>
+      <h5 style="margin: 20px 0; color: #0bd393"><%= @my_group[:name] %></h5>
+      <% @my_group[:teams].each do |c| %>
+          <%= render partial: '/components/avatar_name_details_row', locals: c %>
+        <% end %>
+     <% else %>
+      <p>Your competition for this round?</p>
+        <% @competition.each do |c| %>
+          <%= render partial: '/components/avatar_name_details_row', locals: c %>
+        <% end %>
       <% end %>
     </div>
   </div>

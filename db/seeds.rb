@@ -6,7 +6,7 @@ Contest.delete_all
 ContestGroup.delete_all
 EventTeamContest.delete_all
 
-stock_image_url = "https://png.pngtree.com/png-vector/20210604/ourmid/pngtree-gray-network-placeholder-png-image_3416659.jpg"
+stock_image_url = "https://rehabconceptspt.com/wp-content/uploads/2016/06/placeholder-640-square.jpg"
 organization = Organization.first
 event = organization.organization_events.map(&:event).first
 event_rounds = event.event_rounds
